@@ -9,8 +9,9 @@ namespace Models
     public class Disease
     {
         public int Id { get; set; }
-        public int DiagnosisId { get; set; }
-        public Diagnosis Diagnosis { get; set; }
+        public List<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
+        public string CommonName { get; set; }
+
         public string Name { get; set; }
         public string MedicalCode { get; set; }
     }

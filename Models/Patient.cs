@@ -13,8 +13,8 @@ namespace Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
-        public int PhoneNumber { get; set; }
-        public Gender gender { get; set; }
+        public string PhoneNumber { get; set; }
+        public Gender Gender { get; set; }
 
 
        
@@ -26,8 +26,21 @@ namespace Models
 
         public int Age()
         {
-            var now = DateTime.Now;
-            return now.Year - BirthDate.Year;
+            if (DateTime.Today.Month > BirthDate.Month)
+            {
+                return DateTime.Today.Year - BirthDate.Year;
+            }
+            else
+            {
+                if (DateTime.Today.Day < BirthDate.Day)
+                {
+                    return (DateTime.Today.Year - BirthDate.Year) - 1;
+                }
+                else
+                {
+                    return DateTime.Today.Year - BirthDate.Year;
+                }
+            }
         }
     }
 }

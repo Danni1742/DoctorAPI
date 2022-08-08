@@ -7,8 +7,8 @@ using Models;
 
 namespace BLL.Interfaces
 {
-    public interface IDiagnosisService : IGenericService<Diagnosis>
+    public interface IAvaliableVisitTimeService : IGenericService<AvaliableVisitTime>
     {
-        Diagnosis GetByIdWithInclude(int id);
+        Task<AvaliableVisitTime> GetByIdWithInclude(int id);
     }
 }

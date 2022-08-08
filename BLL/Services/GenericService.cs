@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
@@ -20,31 +21,52 @@ namespace BLL.Services
             _doctorsContext = doctorsContext;
             _dbset = doctorsContext.Set<TEntity>();
         }
-        public void Add(TEntity entity)
+        public async Task Add(TEntity entity)
         {
-            _dbset.Add(entity);
-            _doctorsContext.SaveChanges();
+            await _dbset.AddAsync(entity);
+            await _doctorsContext.SaveChangesAsync();
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async  Task<IEnumerable<TEntity>> GetAll()
         {
-            return _dbset.ToList();
+            return await _dbset.ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetById(int id)
         {
-            return _dbset.Find(id);
+            return await _dbset.FindAsync(id);
         }
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
             _doctorsContext.Entry(entity).State = EntityState.Modified;
-            _doctorsContext.SaveChanges(); ;
+            await _doctorsContext.SaveChangesAsync(); ;
         }
-        public void RemoveById(int id)
+        public async Task RemoveById(int id)
         {
-            _dbset.Remove(_dbset.Find(id));
-            _doctorsContext.SaveChanges(); ;
+            var entity = await _dbset.FindAsync(id);
+            _dbset.Remove(entity);
+            await _doctorsContext.SaveChangesAsync(); ;
         }
+
+        public IEnumerable<TEntity> GetWithInclude(params Expression <Func<TEntity, object>>[] includeProperties)
+        {
+            return Include(includeProperties).ToList();
+        }
+
+        public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
+            params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            var query = Include(includeProperties);
+            return query.Where(predicate).ToList();
+        }
+
+        private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = _dbset.AsNoTracking();
+            return includeProperties
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+
     }
 }

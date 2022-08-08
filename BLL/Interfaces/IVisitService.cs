@@ -9,6 +9,6 @@ namespace BLL.Interfaces
 {
     public interface IVisitService : IGenericService<Visit>
     {
-       
+        Task<Visit> GetByIdWithInclude(int id);
     }
 }

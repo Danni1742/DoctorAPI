@@ -9,11 +9,11 @@ namespace BLL.Interfaces
 {
     public interface IGenericService<TEntity> where TEntity : class
     {
-        void Add(TEntity entity);
-        TEntity GetById(int id);
-        IEnumerable<TEntity> GetAll();
-        void Update(TEntity entity);
-        void RemoveById(int id);
+        Task Add(TEntity entity);
+        Task<TEntity> GetById(int id);
+        Task<IEnumerable<TEntity>> GetAll();
+        Task Update(TEntity entity);
+        Task RemoveById(int id);
 
     }
 }

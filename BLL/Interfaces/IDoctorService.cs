@@ -5,10 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 
+
 namespace BLL.Interfaces
 {
     public interface IDoctorService : IGenericService<Doctor>
     {
-        Doctor GetByIdWithInclude(int id);
+        Task<Doctor> GetByIdWithInclude(int id);
+        Task AddVisitTime(int id, DateTime dateTime);
+        Task RemoveVisitTime(int id, DateTime visitTime);
+        Task AddVisit(int id, Visit visit);
+        Task RemoveVisit(int id, int visitId);
+        public IEnumerable<Doctor> GetDoctorsWithVisits();
     }
 }

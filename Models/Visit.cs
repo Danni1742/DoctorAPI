@@ -10,8 +10,8 @@ namespace Models
     public class Visit
     {
         public int Id { get; set; }
-        public VisitType visitType { get; set; }
-        public DateTime dateTime { get; set; }
+        public VisitType VisitType { get; set; }
+        public DateTime DateTime { get; set; }
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; }
 
@@ -25,7 +25,7 @@ namespace Models
         public string Recommendation { get; set; }
         public Visit()
         {
-            visitType = VisitType.primary;
+            VisitType = VisitType.primary;
         }
 
 

@@ -73,7 +73,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("AvaliableVisitTime");
+                    b.ToTable("AvaliableVisitTimes");
                 });
 
             modelBuilder.Entity("Models.Diagnosis", b =>
@@ -127,11 +127,14 @@ namespace DAL.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Specialization")
                         .HasColumnType("nvarchar(max)");
@@ -141,9 +144,6 @@ namespace DAL.Migrations
 
                     b.Property<string>("VisitPlaceAdress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("gender")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -160,17 +160,17 @@ namespace DAL.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("gender")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -190,6 +190,9 @@ namespace DAL.Migrations
                     b.Property<string>("Complaint")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -205,10 +208,7 @@ namespace DAL.Migrations
                     b.Property<string>("Recommendation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("dateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("visitType")
+                    b.Property<int>("VisitType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -253,7 +253,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("Models.Disease", b =>
                 {
                     b.HasOne("Models.Diagnosis", "Diagnosis")
-                        .WithMany("diseases")
+                        .WithMany("Diseases")
                         .HasForeignKey("DiagnosisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -282,7 +282,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Diagnosis", b =>
                 {
-                    b.Navigation("diseases");
+                    b.Navigation("Diseases");
                 });
 
             modelBuilder.Entity("Models.Doctor", b =>

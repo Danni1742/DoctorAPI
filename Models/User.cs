@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public enum Gender {male, female }
     public class User
     {
         public int Id { get; set; }
@@ -14,7 +13,7 @@ namespace Models
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
         public int PhoneNumber { get; set; }
-        public Gender gender { get; set; }
+        public Gender Gender { get; set; }
 
 
         public int Age()

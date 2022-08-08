@@ -15,5 +15,14 @@ namespace BLL.Services
         public VisitService(DoctorsContext context) : base(context)
         { 
         }
+
+        public async Task<Visit> GetByIdWithInclude(int id)
+        {
+            return await _doctorsContext.Visits
+                .Where(v => v.Id == id)
+                .Include(v => v.Doctor)
+                .Include(v => v.Patient)
+                .FirstOrDefaultAsync();
+        }
     }
 }

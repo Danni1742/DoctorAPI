@@ -12,6 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using BLL.Interfaces;
+using BLL.Services;
+using AutoMapper;
 
 namespace DoctorAPI
 {
@@ -27,15 +30,33 @@ namespace DoctorAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
             services.AddControllers();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DoctorAPI", Version = "v1" });
-            //});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DoctorAPI", Version = "v1" });
+            });
             //services.AddDbContext<DoctorsContext>(opt => opt.UseInMemoryDatabase("doctorsdb"));
 
             services.AddDbContext<DoctorsContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddHttpClient<ISymptomCheckerApiRepository, SymptomCheckerApiRepository>();
+
+            services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+            services.AddScoped<IAnalysisService, AnalysisService>();
+            services.AddScoped<IAvaliableVisitTimeService, AvaliableVisitTimeService>();
+            services.AddScoped<IDiseaseService, DiseaseService>();
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IVisitService, VisitService>();
+
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddSingleton<ISymptomCheckerApiRepository, SymptomCheckerApiRepository>();
 
 
         }

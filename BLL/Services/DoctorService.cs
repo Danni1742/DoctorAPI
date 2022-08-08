@@ -15,13 +15,50 @@ namespace BLL.Services
         public DoctorService(DoctorsContext context) : base(context)
         { 
         }
-        public Doctor GetByIdWithInclude(int id)
+
+        public async Task AddVisit(int id, Visit visit)
         {
-            return _doctorsContext.Doctors
-                .Where(d => d.Id == id)
-                .Include(d => d.AvaliableVisitTimes)
-                .Include(d => d.Visits)
-                .FirstOrDefault();
+            Doctor doctor = await GetByIdWithInclude(id);
+            doctor.Visits.Add(visit);
+            await _doctorsContext.SaveChangesAsync();
+
         }
+
+        public async Task AddVisitTime(int id, DateTime dateTime)
+        {
+            Doctor doctor = await GetByIdWithInclude(id);
+            doctor.AvaliableVisitTimes.Add(new AvaliableVisitTime(dateTime, id));
+            await _doctorsContext.SaveChangesAsync();
+        }
+
+        public async Task<Doctor> GetByIdWithInclude(int id)
+        {
+            return await _doctorsContext.Doctors
+                .Where(v => v.Id == id)
+                .Include(v => v.Visits)
+                .Include(v => v.AvaliableVisitTimes)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task RemoveVisit(int id, int visitID)
+        {
+            Doctor doctor = await GetByIdWithInclude(id);
+            doctor.Visits.RemoveAll(a => a.Id == visitID);
+            await _doctorsContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveVisitTime(int id, DateTime visitTime)
+        {
+            Doctor doctor = await GetByIdWithInclude(id);
+            doctor.AvaliableVisitTimes.RemoveAll(a => a.AvalibleTime == visitTime);
+            await _doctorsContext.SaveChangesAsync();
+        }
+        public IEnumerable<Doctor> GetDoctorsWithVisits()
+        {
+            IEnumerable<Doctor> doctors = GetWithInclude(x => x.Visits, y => y.AvaliableVisitTimes);
+            return GetWithInclude(x => x.Visits.Count > 0, v => v.Visits, y => y.AvaliableVisitTimes);
+        }
+        
+
     }
 }

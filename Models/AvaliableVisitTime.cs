@@ -13,5 +13,13 @@ namespace Models
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; }
 
+        public AvaliableVisitTime(DateTime dateTime, int id)
+        {
+            AvalibleTime = dateTime;
+            DoctorId = id;
+        }
+        public AvaliableVisitTime()
+        {
+        }
     }
 }
