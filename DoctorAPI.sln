@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAPI", "DoctorAPI\DoctorAPI.csproj", "{AB1DB2A8-6CED-48F5-B1BD-0E92B67A1CD3}"
 	ProjectSection(ProjectDependencies) = postProject
